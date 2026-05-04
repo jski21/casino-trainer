@@ -80,41 +80,29 @@ body::after {
 
 /* Header */
 .header {
-  padding: 1.15rem 1rem 0.9rem;
+  padding: 8px 10px 6px;
   text-align: center;
-  border-bottom: 1px solid rgba(79,255,176,0.16);
-  position: relative;
+  margin-bottom: 10px;
 }
-
-.header::before, .header::after {
-  content: '♠';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--brass);
-  font-size: 1.5rem;
-  opacity: 0.4;
-}
-.header::before { left: 2rem; }
-.header::after { right: 2rem; content: '♣'; }
 
 .eyebrow {
   font-family: 'Courier New', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.26em;
+  font-size: 11px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--brass);
-  margin-bottom: 0.28rem;
+  margin-bottom: 5px;
 }
 
 .title {
   font-family: 'Courier New', monospace;
-  font-size: clamp(1.5rem, 4.5vw, 2.6rem);
+  font-size: clamp(24px,3.6vw,50px);
   font-weight: 900;
   font-style: normal;
   color: var(--ivory);
-  letter-spacing: 0.09em;
+  letter-spacing: 0.05em;
   line-height: 1;
+  margin: 0;
 }
 
 .title .amp {
@@ -125,10 +113,10 @@ body::after {
 
 .subtitle {
   font-family: 'Courier New', monospace;
-  font-size: 0.78rem;
+  font-size: 11px;
   color: var(--cream-dim);
-  margin-top: 0.35rem;
-  letter-spacing: 0.1em;
+  margin-top: 6px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -136,63 +124,53 @@ body::after {
 .nav {
   display: flex;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.7rem 0.75rem;
+  gap: 6px;
+  padding: 3px;
   flex-wrap: wrap;
-  border-bottom: 1px solid rgba(79,255,176,0.12);
-  background: #0a130d;
+  background: #0d1810;
+  border-radius: 8px;
+  margin: 0 auto 14px;
+  width: max-content;
+  max-width: 100%;
 }
 
 .nav-item {
-  background: #0d1810;
-  border: 1px solid #1c3326;
-  color: var(--cream-dim);
+  background: transparent;
+  border: none;
+  color: #778a80;
   font-family: 'Courier New', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.13em;
-  padding: 0.62rem 0.9rem;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  padding: 10px 14px;
   cursor: pointer;
-  position: relative;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   text-transform: uppercase;
   font-weight: 900;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .nav-item:hover {
-  color: var(--cream);
-  border-color: #2d5f44;
-  transform: translateY(-1px);
+  color: #dde8e0;
 }
 
 .nav-item.active {
   color: #070c0a;
   background: var(--accent);
-  border-color: var(--accent);
-}
-
-.nav-item.active::after {
-  content: none;
 }
 
 .nav-num {
-  font-family: 'Courier New', monospace;
-  font-size: 0.58rem;
-  color: currentColor;
-  margin-right: 0.35rem;
-  vertical-align: super;
-  opacity: 0.8;
+  display: none;
 }
 
 /* Section */
 .section {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 2rem 1rem 2.75rem;
+  padding: 0.5rem 1rem 2.75rem;
 }
 
 .section-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.25rem;
   text-align: center;
 }
 
@@ -245,13 +223,12 @@ body::after {
 
 /* Tab toggle (Learn/Practice) */
 .mode-toggle {
-  display: inline-flex;
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--brass-dim);
-  border-radius: 2px;
-  padding: 4px;
-  margin: 0 auto 2rem;
-  position: relative;
+  display: flex;
+  gap: 6px;
+  background: #0d1810;
+  border-radius: 8px;
+  padding: 3px;
+  margin: 0 auto 12px;
 }
 
 .mode-toggle-wrap {
@@ -260,23 +237,23 @@ body::after {
 }
 
 .mode-btn {
-  background: none;
+  background: transparent;
   border: none;
-  color: var(--cream-dim);
-  padding: 0.6rem 2rem;
+  color: #778a80;
+  padding: 10px 16px;
   font-family: 'Courier New', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
+  font-size: 13px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s;
-  border-radius: 1px;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  font-weight: 900;
 }
 
 .mode-btn.active {
   background: var(--brass);
   color: var(--ink);
-  box-shadow: 0 2px 8px rgba(79,255,176,0.3);
 }
 
 /* Cards */
@@ -1041,11 +1018,11 @@ body::after {
 }
 
 @media (max-width: 700px) {
-  .section { padding: 2rem 1rem; }
+  .section { padding: 0.5rem 1rem 2rem; }
   .practice-panel { padding: 1.5rem; }
   .edu { padding: 1.5rem; }
-  .nav-item { padding: 0.5rem 0.75rem 0.75rem; font-size: 0.95rem; }
-  .nav-num { display: none; }
+  .nav-item { padding: 8px 10px; font-size: 11px; }
+  .mode-btn { padding: 8px 12px; font-size: 11px; }
   .pot-info { flex-direction: column; gap: 0.5rem; align-items: center; }
   .range-table { gap: 1px; padding: 2px; }
   .range-cell { font-size: 0.5rem; }
@@ -1864,13 +1841,13 @@ const SECTIONS = [
 
 function App() {
   const [section, setSection] = useState("rankings");
-  const [mode, setMode] = useState("learn");
+  const [mode, setMode] = useState("guide");
 
   const renderContent = () => {
-    if (section === "rankings") return mode === "learn" ? e(HandRankings) : e(HandRankingsPractice);
-    if (section === "preflop") return mode === "learn" ? e(Preflop) : e(PreflopPractice);
-    if (section === "postflop") return mode === "learn" ? e(Postflop) : e(PostflopPractice);
-    if (section === "bankroll") return mode === "learn" ? e(Bankroll) : e(BankrollPractice);
+    if (section === "rankings") return mode === "guide" ? e(HandRankings) : e(HandRankingsPractice);
+    if (section === "preflop") return mode === "guide" ? e(Preflop) : e(PreflopPractice);
+    if (section === "postflop") return mode === "guide" ? e(Postflop) : e(PostflopPractice);
+    if (section === "bankroll") return mode === "guide" ? e(Bankroll) : e(BankrollPractice);
   };
 
   const sectionTitles = {
@@ -1884,16 +1861,16 @@ function App() {
     e("style", null, styles),
     
     e("header", { className: "header" },
-      e("div", { className: "eyebrow" }, "Texas Hold'em Trainer"),
+      e("div", { className: "eyebrow" }, "Texas Hold'em Guide + Practice"),
       e("h1", { className: "title" }, "POKER ", e("span", { className: "amp" }, "TRAINER")),
-      e("div", { className: "subtitle" }, "Learn core concepts, then drill decisions"),
+      e("div", { className: "subtitle" }, "Guide mode for concepts, practice mode for decisions"),
     ),
 
     e("nav", { className: "nav" },
       SECTIONS.map(s => e("button", {
         key: s.id,
         className: `nav-item ${section === s.id ? "active" : ""}`,
-        onClick: () => { setSection(s.id); setMode("learn"); },
+        onClick: () => { setSection(s.id); setMode("guide"); },
       },
         e("span", { className: "nav-num" }, s.num),
         s.title,
@@ -1907,16 +1884,16 @@ function App() {
         e("p", { className: "section-desc" }, sectionTitles[section].desc),
         e("div", { className: "quick-start" },
           e("strong", null, "Flow: "),
-          "Pick a chapter, switch to Learn for concepts, then Practice to test decisions and track accuracy.",
+          "Pick a chapter, use Guide for concepts, then switch to Practice to test decisions and track accuracy.",
         ),
       ),
 
       e("div", { className: "mode-toggle-wrap" },
         e("div", { className: "mode-toggle" },
           e("button", {
-            className: `mode-btn ${mode === "learn" ? "active" : ""}`,
-            onClick: () => setMode("learn"),
-          }, "Learn"),
+            className: `mode-btn ${mode === "guide" ? "active" : ""}`,
+            onClick: () => setMode("guide"),
+          }, "Guide"),
           e("button", {
             className: `mode-btn ${mode === "practice" ? "active" : ""}`,
             onClick: () => setMode("practice"),

@@ -3,19 +3,24 @@
 import { useEffect, useState } from "react";
 import BlackjackTrainer from "@/components/BlackjackTrainer";
 import PokerTrainer from "@/components/PokerTrainer";
+import BaccaratTrainer from "@/components/BaccaratTrainer";
 
 const TRAINERS = [
   { id: "blackjack", label: "BLACKJACK TRAINER" },
   { id: "poker", label: "POKER TRAINER" },
+  { id: "baccarat", label: "BACCARAT TRAINER" },
 ];
 const ACTIVE_TRAINER_STORAGE_KEY = "casino_trainer_active";
 
 export default function TrainerSwitcher() {
-  const [active, setActive] = useState(() => {
-    if (typeof window === "undefined") return "blackjack";
+  const [active, setActive] = useState("blackjack");
+
+  useEffect(() => {
     const saved = window.localStorage.getItem(ACTIVE_TRAINER_STORAGE_KEY);
-    return TRAINERS.some((t) => t.id === saved) ? saved : "blackjack";
-  });
+    if (!TRAINERS.some((t) => t.id === saved)) return undefined;
+    const t = setTimeout(() => setActive(saved), 0);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     window.localStorage.setItem(ACTIVE_TRAINER_STORAGE_KEY, active);
@@ -89,7 +94,9 @@ export default function TrainerSwitcher() {
         </div>
       </div>
 
-      {active === "blackjack" ? <BlackjackTrainer /> : <PokerTrainer />}
+      {active === "blackjack" && <BlackjackTrainer />}
+      {active === "poker" && <PokerTrainer />}
+      {active === "baccarat" && <BaccaratTrainer />}
     </div>
   );
 }
