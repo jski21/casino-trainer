@@ -252,7 +252,11 @@ export default function BlackjackTrainer() {
     setUserGuess(""); setFeedback(null); setShowHint(false);
   }, []);
 
-  useEffect(() => { if (mode==="Count") dealCards(); }, [mode]);
+  useEffect(() => {
+    if (mode !== "Count") return;
+    const t = setTimeout(() => dealCards(), 0);
+    return () => clearTimeout(t);
+  }, [mode, dealCards]);
 
   const submitCount = () => {
     if (userGuess==="") return;
@@ -270,12 +274,12 @@ export default function BlackjackTrainer() {
     return ()=>clearTimeout(t);
   }, [mode, speedIndex, speedCards, speedResult, speedMode]);
 
-  const startSpeed = () => {
+  const startSpeed = useCallback(() => {
     const nc = Array.from({ length:10 }, randomCard);
     const total = nc.reduce((s,c)=>s+getCountValue(c.value),0);
     setSpeedCards(nc); setSpeedCount(total);
     setSpeedIndex(0); setSpeedResult(null); setSpeedInput("");
-  };
+  }, []);
 
   const submitSpeed = () => {
     const correct = parseInt(speedInput)===speedCount;
@@ -284,7 +288,11 @@ export default function BlackjackTrainer() {
     if (correct){ const ns=streak+1; setStreak(ns); if(ns>bestStreak) setBestStreak(ns); } else setStreak(0);
   };
 
-  useEffect(() => { if (mode==="Speed") startSpeed(); }, [mode]);
+  useEffect(() => {
+    if (mode !== "Speed") return;
+    const t = setTimeout(() => startSpeed(), 0);
+    return () => clearTimeout(t);
+  }, [mode, startSpeed]);
 
   // ── STRATEGY QUIZ LOGIC ──
   const newQuiz = useCallback(() => {
@@ -292,7 +300,14 @@ export default function BlackjackTrainer() {
     setQuizScenario(s); setQuizFeedback(null);
   }, []);
 
-  useEffect(() => { if (mode==="Strategy"){ newQuiz(); setQuizView("quiz"); } }, [mode]);
+  useEffect(() => {
+    if (mode !== "Strategy") return;
+    const t = setTimeout(() => {
+      newQuiz();
+      setQuizView("quiz");
+    }, 0);
+    return () => clearTimeout(t);
+  }, [mode, newQuiz]);
 
   const submitStrategy = (action) => {
     if (!quizScenario||quizFeedback) return;
@@ -308,7 +323,11 @@ export default function BlackjackTrainer() {
     setDevScenario(d); setDevInput(null); setDevTCInput(""); setDevFeedback(null);
   }, []);
 
-  useEffect(() => { if (devMode) newDevQuiz(); }, [devMode]);
+  useEffect(() => {
+    if (!devMode) return;
+    const t = setTimeout(() => newDevQuiz(), 0);
+    return () => clearTimeout(t);
+  }, [devMode, newDevQuiz]);
 
   useEffect(() => {
     if (mode!=='Simulate' || !sim.active) return;
@@ -429,7 +448,7 @@ export default function BlackjackTrainer() {
           <section>
             <div style={{ fontSize:11, letterSpacing:"0.25em", color:"#4fffb0", marginBottom:10 }}>BASIC STRATEGY</div>
             <div style={{ fontSize:14, color:"#dde8e0", lineHeight:1.8, marginBottom:10 }}>
-              Basic strategy is the mathematically optimal play for every hand given your cards and the dealer's upcard. It was derived by computer simulation of billions of hands and eliminates all guesswork. Playing basic strategy perfectly cuts the house edge from 2–3% down to roughly <span style={{ color:"#ffd700", fontWeight:700 }}>0.5%</span> — the lowest of any casino table game.
+              Basic strategy is the mathematically optimal play for every hand given your cards and the dealer&apos;s upcard. It was derived by computer simulation of billions of hands and eliminates all guesswork. Playing basic strategy perfectly cuts the house edge from 2–3% down to roughly <span style={{ color:"#ffd700", fontWeight:700 }}>0.5%</span> — the lowest of any casino table game.
             </div>
             <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
               {[
@@ -476,7 +495,7 @@ export default function BlackjackTrainer() {
           <section>
             <div style={{ fontSize:11, letterSpacing:"0.25em", color:"#4fffb0", marginBottom:10 }}>BET SPREADING</div>
             <div style={{ fontSize:14, color:"#dde8e0", lineHeight:1.8, marginBottom:10 }}>
-              Counting alone doesn't make you money — you have to vary your bets. Bet small when the count is neutral or negative, and increase your bet when the true count goes positive. The difference between your minimum and maximum bet is your <span style={{ color:"#ffd700", fontWeight:700 }}>bet spread</span>.
+              Counting alone doesn&apos;t make you money — you have to vary your bets. Bet small when the count is neutral or negative, and increase your bet when the true count goes positive. The difference between your minimum and maximum bet is your <span style={{ color:"#ffd700", fontWeight:700 }}>bet spread</span>.
             </div>
             <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
               {[
@@ -669,7 +688,7 @@ export default function BlackjackTrainer() {
               </div>
               {!quizFeedback ? (
                 <div>
-                  <div style={{ fontSize:14, color:"#778a80", marginBottom:10 }}>What's the correct play?</div>
+                  <div style={{ fontSize:14, color:"#778a80", marginBottom:10 }}>What&apos;s the correct play?</div>
                   <div style={{ display:"flex", gap:7, justifyContent:"center", flexWrap:"wrap" }}>
                     {["H","S","D","P"].map(action=>{
                       const st=ACTION_STYLE[action];

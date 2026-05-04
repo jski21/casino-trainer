@@ -1,5 +1,5 @@
-import BlackjackTrainer from "@/components/BlackjackTrainer";
+import TrainerSwitcher from "@/components/TrainerSwitcher";
 
 export default function Home() {
-  return <BlackjackTrainer />;
+  return <TrainerSwitcher />;
 }
