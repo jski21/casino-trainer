@@ -11,69 +11,47 @@ const motion = { div: MotionDiv };
 
 
 // ============= STYLES =============
+// Hooks into the global theme tokens defined in app/globals.css so the
+// Poker pane themes alongside Blackjack and Baccarat (light + dark).
 const styles = `
-:root {
-  --felt-deep: #070c0a;
-  --felt: #0d1810;
-  --felt-light: #122317;
-  --brass: #4fffb0;
-  --brass-bright: #7fffc9;
-  --brass-dim: #1f5a43;
-  --cream: #dde8e0;
-  --cream-dim: #9bb3a6;
-  --ivory: #f1fff8;
-  --burgundy: #ff5577;
-  --burgundy-dark: #71293c;
-  --ink: #070c0a;
-  --shadow: rgba(0,0,0,0.4);
+.app {
+  --felt-deep: var(--bg);
+  --felt: var(--bg-elev);
+  --felt-light: var(--bg-elev-2);
+  --brass: var(--accent);
+  --brass-bright: var(--accent-strong);
+  --brass-dim: color-mix(in srgb, var(--accent) 35%, var(--bg));
+  --cream: var(--text);
+  --cream-dim: var(--text-2);
+  --ivory: var(--text);
+  --burgundy: var(--danger);
+  --burgundy-dark: color-mix(in srgb, var(--danger) 45%, var(--bg));
+  --ink: var(--bg);
+  --shadow: var(--shadow);
+  --surface-0: var(--bg);
+  --surface-1: var(--bg-elev);
+  --surface-2: var(--bg-elev-2);
+  --surface-3: var(--bg-elev-3);
+  --line-soft: var(--border);
+  --line-strong: var(--border-strong);
+  --text-main: var(--text);
+  --text-dim: var(--text-3);
+  --accent: var(--accent);
+  --accent-strong: var(--accent-strong);
+  --warn: var(--warn);
+  --bad: var(--danger);
 }
+
+.app * { box-sizing: border-box; margin: 0; padding: 0; }
 
 .app {
-  --surface-0: #070c0a;
-  --surface-1: #0d1810;
-  --surface-2: #101c13;
-  --surface-3: #122117;
-  --line-soft: #1a2e1e;
-  --line-strong: #2a4a35;
-  --text-main: #dde8e0;
-  --text-dim: #778a80;
-  --accent: #4fffb0;
-  --accent-strong: #7fffc9;
-  --warn: #ffd700;
-  --bad: #ff5577;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: 
+  background:
     radial-gradient(ellipse at top, var(--felt-light) 0%, var(--felt-deep) 70%),
     var(--felt-deep);
   font-family: 'Courier New', monospace;
   color: var(--cream);
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(79,255,176,0.03) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(79,255,176,0.02) 0%, transparent 40%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: overlay;
 }
 
 .app { position: relative; z-index: 2; min-height: 100vh; }

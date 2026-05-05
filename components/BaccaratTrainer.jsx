@@ -119,7 +119,7 @@ function playRound(shoe, startIdx) {
 const BET_TYPES = {
   player: { label: "PLAYER", payout: 1, color: "#4aa3ff", note: "Pays 1:1" },
   banker: { label: "BANKER", payout: 0.95, color: "#ff8a4a", note: "Pays 0.95:1 (5% commission)" },
-  tie: { label: "TIE", payout: 8, color: "#ffd700", note: "Pays 8:1" },
+  tie: { label: "TIE", payout: 8, color: "var(--warn)", note: "Pays 8:1" },
   pPair: { label: "PLAYER PAIR", payout: 11, color: "#7fc7ff", note: "Pays 11:1" },
   bPair: { label: "BANKER PAIR", payout: 11, color: "#ffb380", note: "Pays 11:1" },
 };
@@ -151,14 +151,14 @@ function settle(bets, player, banker) {
 
 // ─── CHIP UI ───────────────────────────────────────────────────
 const CHIPS = [
-  { v: 1, color: "#dde8e0", ring: "#9bb3a6" },
-  { v: 5, color: "#ff5577", ring: "#7a1f2e" },
-  { v: 25, color: "#4fffb0", ring: "#1a5c3e" },
-  { v: 100, color: "#1a1a1a", ring: "#777" },
-  { v: 500, color: "#c77dff", ring: "#5a2c7a" },
+  { v: 1, color: "#e8eee8", ring: "#9aa49d", text: "#0d1810" },
+  { v: 5, color: "#d6304a", ring: "#7a1f2e", text: "#fff" },
+  { v: 25, color: "#1f9e60", ring: "#0d5a36", text: "#fff" },
+  { v: 100, color: "#1c1c1c", ring: "#444", text: "#fff" },
+  { v: 500, color: "#7a3fb5", ring: "#4a2474", text: "#fff" },
 ];
 
-const Chip = ({ v, color, ring, selected, onClick }) => (
+const Chip = ({ v, color, ring, text, selected, onClick }) => (
   <button
     onClick={onClick}
     style={{
@@ -167,15 +167,15 @@ const Chip = ({ v, color, ring, selected, onClick }) => (
       borderRadius: "50%",
       border: `4px dashed ${ring}`,
       background: color,
-      color: ["#dde8e0", "#4fffb0", "#ffd700"].includes(color) ? "#070c0a" : "#fff",
+      color: text,
       fontFamily: "'Courier New', monospace",
       fontWeight: 900,
       fontSize: 14,
       cursor: "pointer",
       transform: selected ? "translateY(-6px) scale(1.08)" : "translateY(0)",
       boxShadow: selected
-        ? `0 8px 16px ${ring}66, 0 0 0 3px #4fffb0`
-        : `0 4px 8px rgba(0,0,0,0.4)`,
+        ? `0 8px 16px color-mix(in srgb, ${ring} 50%, transparent), 0 0 0 3px var(--accent)`
+        : `0 4px 8px var(--shadow)`,
       transition: "all 0.15s",
     }}
   >
@@ -192,8 +192,8 @@ const Card = ({ c, hidden, delay = 0 }) => {
           width: 58,
           height: 84,
           borderRadius: 6,
-          background: "linear-gradient(135deg,#1a2e1e,#0d1810)",
-          border: "1px solid #1a2e1e",
+          background: "linear-gradient(135deg,var(--border),var(--bg-elev))",
+          border: "1px solid var(--border)",
         }}
       />
     );
@@ -253,14 +253,14 @@ const BetZone = ({
         minHeight: big ? 130 : 80,
         padding: big ? "16px 14px" : "10px 12px",
         borderRadius: 12,
-        border: `2px solid ${winning ? "#4fffb0" : losing ? "#ff5577" : highlight ? t.color : "#1a2e1e"}`,
+        border: `2px solid ${winning ? "var(--accent)" : losing ? "var(--danger)" : highlight ? t.color : "var(--border)"}`,
         background: winning
-          ? `linear-gradient(135deg, ${t.color}33, #0d1810)`
+          ? `linear-gradient(135deg, color-mix(in srgb, ${t.color} 20%, transparent), var(--bg-elev))`
           : losing
-          ? "linear-gradient(135deg,#3a1018,#0d1810)"
+          ? "linear-gradient(135deg,#3a1018,var(--bg-elev))"
           : highlight
-          ? `${t.color}1a`
-          : "#0d1810",
+          ? `color-mix(in srgb, ${t.color} 10%, transparent)`
+          : "var(--bg-elev)",
         cursor: "pointer",
         color: t.color,
         fontFamily: "'Courier New', monospace",
@@ -268,7 +268,7 @@ const BetZone = ({
         textAlign: "center",
         transition: "all 0.2s",
         outline: "none",
-        boxShadow: winning ? `0 0 24px ${t.color}66` : "none",
+        boxShadow: winning ? `0 0 24px color-mix(in srgb, ${t.color} 40%, transparent)` : "none",
       }}
     >
       <div style={{ fontSize: big ? 18 : 12, letterSpacing: "0.12em", color: t.color }}>
@@ -277,7 +277,7 @@ const BetZone = ({
       <div
         style={{
           fontSize: big ? 11 : 10,
-          color: "#778a80",
+          color: "var(--text-3)",
           marginTop: 4,
           letterSpacing: "0.05em",
           fontWeight: 600,
@@ -292,7 +292,7 @@ const BetZone = ({
             position: "absolute",
             bottom: 8,
             right: 8,
-            background: "#070c0a",
+            background: "var(--bg)",
             border: `2px solid ${t.color}`,
             color: t.color,
             borderRadius: 999,
@@ -496,7 +496,7 @@ export default function BaccaratTrainer() {
         maxWidth: 1100,
         margin: "0 auto",
         padding: "16px 14px 60px",
-        color: "#dde8e0",
+        color: "var(--text)",
         fontFamily: "'Courier New', monospace",
       }}
     >
@@ -512,25 +512,25 @@ export default function BaccaratTrainer() {
         }}
       >
         <div>
-          <div style={{ fontSize: 11, color: "#778a80", letterSpacing: "0.16em" }}>BANKROLL</div>
+          <div style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.16em" }}>BANKROLL</div>
           <div
             style={{
               fontSize: 30,
               fontWeight: 900,
-              color: bankroll >= 1000 ? "#4fffb0" : bankroll >= 500 ? "#ffd700" : "#ff5577",
+              color: bankroll >= 1000 ? "var(--accent)" : bankroll >= 500 ? "var(--warn)" : "var(--danger)",
             }}
           >
             ${bankroll.toFixed(2)}
           </div>
         </div>
         <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 11, color: "#778a80", letterSpacing: "0.16em" }}>
+          <div style={{ fontSize: 11, color: "var(--text-3)", letterSpacing: "0.16em" }}>
             ROUND {stats.rounds + (phase === "betting" ? 1 : 0)}
           </div>
-          <div style={{ fontSize: 13, color: "#9bb3a6", marginTop: 4 }}>
-            <span style={{ color: "#4fffb0" }}>{stats.won}W</span> ·{" "}
-            <span style={{ color: "#ff5577" }}>{stats.lost}L</span> ·{" "}
-            <span style={{ color: "#778a80" }}>{stats.push}P</span>
+          <div style={{ fontSize: 13, color: "var(--text-2)", marginTop: 4 }}>
+            <span style={{ color: "var(--accent)" }}>{stats.won}W</span> ·{" "}
+            <span style={{ color: "var(--danger)" }}>{stats.lost}L</span> ·{" "}
+            <span style={{ color: "var(--text-3)" }}>{stats.push}P</span>
           </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
@@ -539,9 +539,9 @@ export default function BaccaratTrainer() {
             style={{
               padding: "8px 14px",
               borderRadius: 6,
-              border: "1px solid #1a2e1e",
-              background: showRules ? "#4fffb022" : "transparent",
-              color: showRules ? "#4fffb0" : "#9bb3a6",
+              border: "1px solid var(--border)",
+              background: showRules ? "color-mix(in srgb, var(--accent) 13%, transparent)" : "transparent",
+              color: showRules ? "var(--accent)" : "var(--text-2)",
               fontFamily: "'Courier New', monospace",
               fontWeight: 900,
               fontSize: 11,
@@ -556,9 +556,9 @@ export default function BaccaratTrainer() {
             style={{
               padding: "8px 14px",
               borderRadius: 6,
-              border: "1px solid #1a2e1e",
+              border: "1px solid var(--border)",
               background: "transparent",
-              color: "#778a80",
+              color: "var(--text-3)",
               fontFamily: "'Courier New', monospace",
               fontWeight: 900,
               fontSize: 11,
@@ -575,17 +575,17 @@ export default function BaccaratTrainer() {
       {showRules && (
         <div
           style={{
-            background: "#0d1810",
-            border: "1px solid #1a2e1e",
+            background: "var(--bg-elev)",
+            border: "1px solid var(--border)",
             borderRadius: 10,
             padding: 16,
             marginBottom: 16,
             fontSize: 13,
             lineHeight: 1.6,
-            color: "#9bb3a6",
+            color: "var(--text-2)",
           }}
         >
-          <div style={{ color: "#4fffb0", fontWeight: 900, marginBottom: 8, fontSize: 14 }}>
+          <div style={{ color: "var(--accent)", fontWeight: 900, marginBottom: 8, fontSize: 14 }}>
             HOW BACCARAT WORKS
           </div>
           <div style={{ marginBottom: 6 }}>
@@ -604,7 +604,7 @@ export default function BaccaratTrainer() {
             on Player&rsquo;s third card). Players never make decisions — Baccarat is a pure bet on
             the outcome.
           </div>
-          <div style={{ marginTop: 10, color: "#ffd700" }}>
+          <div style={{ marginTop: 10, color: "var(--warn)" }}>
             House edges: <b>Banker 1.06%</b> · <b>Player 1.24%</b> · <b>Tie ~14%</b> ·
             Pair side bets ~10%.
           </div>
@@ -638,7 +638,7 @@ export default function BaccaratTrainer() {
               background: "rgba(0,0,0,0.25)",
               borderRadius: 10,
               padding: 14,
-              border: `2px solid ${outcome?.result === "player" ? "#4fffb0" : "#1a5c3e"}`,
+              border: `2px solid ${outcome?.result === "player" ? "var(--accent)" : "#1a5c3e"}`,
               minHeight: 130,
             }}
           >
@@ -655,11 +655,11 @@ export default function BaccaratTrainer() {
               </span>
               <span
                 style={{
-                  background: "#070c0a",
+                  background: "var(--bg)",
                   border: "1px solid #1a5c3e",
                   borderRadius: 6,
                   padding: "3px 10px",
-                  color: "#dde8e0",
+                  color: "var(--text)",
                   fontWeight: 900,
                   fontSize: 18,
                 }}
@@ -693,7 +693,7 @@ export default function BaccaratTrainer() {
               background: "rgba(0,0,0,0.25)",
               borderRadius: 10,
               padding: 14,
-              border: `2px solid ${outcome?.result === "banker" ? "#4fffb0" : "#1a5c3e"}`,
+              border: `2px solid ${outcome?.result === "banker" ? "var(--accent)" : "#1a5c3e"}`,
               minHeight: 130,
             }}
           >
@@ -710,11 +710,11 @@ export default function BaccaratTrainer() {
               </span>
               <span
                 style={{
-                  background: "#070c0a",
+                  background: "var(--bg)",
                   border: "1px solid #1a5c3e",
                   borderRadius: 6,
                   padding: "3px 10px",
-                  color: "#dde8e0",
+                  color: "var(--text)",
                   fontWeight: 900,
                   fontSize: 18,
                 }}
@@ -740,13 +740,13 @@ export default function BaccaratTrainer() {
               letterSpacing: "0.18em",
               padding: "10px 0",
               marginBottom: 12,
-              color: outcome.net > 0 ? "#4fffb0" : outcome.net < 0 ? "#ff5577" : "#ffd700",
+              color: outcome.net > 0 ? "var(--accent)" : outcome.net < 0 ? "var(--danger)" : "var(--warn)",
               animation: "pop 0.35s ease",
             }}
           >
             {outcome.result.toUpperCase()} WINS · {banner}
             {(outcome.pPair || outcome.bPair) && (
-              <span style={{ fontSize: 12, color: "#ffd700", marginLeft: 12 }}>
+              <span style={{ fontSize: 12, color: "var(--warn)", marginLeft: 12 }}>
                 {outcome.pPair && "PLAYER PAIR! "}
                 {outcome.bPair && "BANKER PAIR!"}
               </span>
@@ -804,7 +804,7 @@ export default function BaccaratTrainer() {
           />
         </div>
 
-        <div style={{ marginTop: 8, fontSize: 11, color: "#9bb3a6", textAlign: "center" }}>
+        <div style={{ marginTop: 8, fontSize: 11, color: "var(--text-2)", textAlign: "center" }}>
           Click a zone to place your selected chip · Right-click a zone to clear it
         </div>
       </div>
@@ -827,6 +827,7 @@ export default function BaccaratTrainer() {
               v={c.v}
               color={c.color}
               ring={c.ring}
+              text={c.text}
               selected={chip === c.v}
               onClick={() => setChip(c.v)}
             />
@@ -838,14 +839,14 @@ export default function BaccaratTrainer() {
               <button
                 onClick={undoLast}
                 disabled={betHistory.length === 0}
-                style={btnStyle("#9bb3a6", betHistory.length === 0)}
+                style={btnStyle("var(--text-2)", betHistory.length === 0)}
               >
                 UNDO
               </button>
               <button
                 onClick={clearAll}
                 disabled={totalBet === 0}
-                style={btnStyle("#ff5577", totalBet === 0)}
+                style={btnStyle("var(--danger)", totalBet === 0)}
               >
                 CLEAR
               </button>
@@ -853,9 +854,9 @@ export default function BaccaratTrainer() {
                 onClick={deal}
                 disabled={totalBet === 0}
                 style={{
-                  ...btnStyle("#4fffb0", totalBet === 0),
-                  background: totalBet > 0 ? "#4fffb0" : "transparent",
-                  color: totalBet > 0 ? "#070c0a" : "#1a2e1e",
+                  ...btnStyle("var(--accent)", totalBet === 0),
+                  background: totalBet > 0 ? "var(--accent)" : "transparent",
+                  color: totalBet > 0 ? "var(--bg)" : "var(--border)",
                   fontSize: 14,
                   padding: "12px 24px",
                 }}
@@ -868,7 +869,7 @@ export default function BaccaratTrainer() {
             <div
               style={{
                 padding: "12px 24px",
-                color: "#9bb3a6",
+                color: "var(--text-2)",
                 fontWeight: 900,
                 letterSpacing: "0.12em",
               }}
@@ -880,9 +881,9 @@ export default function BaccaratTrainer() {
             <button
               onClick={nextRound}
               style={{
-                ...btnStyle("#4fffb0"),
-                background: "#4fffb0",
-                color: "#070c0a",
+                ...btnStyle("var(--accent)"),
+                background: "var(--accent)",
+                color: "var(--bg)",
                 fontSize: 14,
                 padding: "12px 24px",
               }}
@@ -897,8 +898,8 @@ export default function BaccaratTrainer() {
       <div
         style={{
           marginTop: 18,
-          background: "#0d1810",
-          border: "1px solid #1a2e1e",
+          background: "var(--bg-elev)",
+          border: "1px solid var(--border)",
           borderRadius: 10,
           padding: 14,
           minHeight: 90,
@@ -907,7 +908,7 @@ export default function BaccaratTrainer() {
         <div
           style={{
             fontSize: 11,
-            color: "#778a80",
+            color: "var(--text-3)",
             letterSpacing: "0.16em",
             marginBottom: 8,
           }}
@@ -915,7 +916,7 @@ export default function BaccaratTrainer() {
           COMMENTARY
         </div>
         {log.length === 0 ? (
-          <div style={{ color: "#1a2e1e", fontSize: 13 }}>
+          <div style={{ color: "var(--border)", fontSize: 13 }}>
             Place a bet and click DEAL to see how the round plays out.
           </div>
         ) : (
@@ -925,7 +926,7 @@ export default function BaccaratTrainer() {
                 key={i}
                 style={{
                   fontSize: 13,
-                  color: "#9bb3a6",
+                  color: "var(--text-2)",
                   borderLeft: "3px solid #1a5c3e",
                   paddingLeft: 10,
                   animation: "slideIn 0.3s ease",
@@ -942,8 +943,8 @@ export default function BaccaratTrainer() {
       <div
         style={{
           marginTop: 16,
-          background: "#0d1810",
-          border: "1px solid #1a2e1e",
+          background: "var(--bg-elev)",
+          border: "1px solid var(--border)",
           borderRadius: 10,
           padding: 14,
         }}
@@ -951,7 +952,7 @@ export default function BaccaratTrainer() {
         <div
           style={{
             fontSize: 11,
-            color: "#778a80",
+            color: "var(--text-3)",
             letterSpacing: "0.16em",
             marginBottom: 10,
             display: "flex",
@@ -962,12 +963,12 @@ export default function BaccaratTrainer() {
           <span>SHOE: {Math.max(0, shoe.length - shoeIdx)} cards left</span>
         </div>
         {history.length === 0 ? (
-          <div style={{ color: "#1a2e1e", fontSize: 13 }}>No rounds yet.</div>
+          <div style={{ color: "var(--border)", fontSize: 13 }}>No rounds yet.</div>
         ) : (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             {history.map((h, i) => {
               const color =
-                h.result === "P" ? "#4aa3ff" : h.result === "B" ? "#ff8a4a" : "#ffd700";
+                h.result === "P" ? "#4aa3ff" : h.result === "B" ? "#ff8a4a" : "var(--warn)";
               return (
                 <div
                   key={i}
@@ -996,7 +997,7 @@ export default function BaccaratTrainer() {
                         right: -2,
                         width: 8,
                         height: 8,
-                        background: "#ffd700",
+                        background: "var(--warn)",
                         borderRadius: "50%",
                       }}
                     />
@@ -1030,9 +1031,9 @@ export default function BaccaratTrainer() {
 const btnStyle = (color, disabled) => ({
   padding: "10px 18px",
   borderRadius: 6,
-  border: `1px solid ${disabled ? "#1a2e1e" : color}`,
+  border: `1px solid ${disabled ? "var(--border)" : color}`,
   background: "transparent",
-  color: disabled ? "#1a2e1e" : color,
+  color: disabled ? "var(--border)" : color,
   fontFamily: "'Courier New', monospace",
   fontWeight: 900,
   fontSize: 12,
