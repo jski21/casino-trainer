@@ -253,7 +253,7 @@ const BetZone = ({
         minHeight: big ? 130 : 80,
         padding: big ? "16px 14px" : "10px 12px",
         borderRadius: 12,
-        border: `2px solid ${winning ? "var(--accent)" : losing ? "var(--danger)" : highlight ? t.color : "var(--border)"}`,
+        border: `2px solid ${winning ? "var(--accent)" : losing ? "var(--danger)" : highlight ? t.color : "var(--placeholder)"}`,
         background: winning
           ? `linear-gradient(135deg, color-mix(in srgb, ${t.color} 20%, transparent), var(--bg-elev))`
           : losing
@@ -856,7 +856,7 @@ export default function BaccaratTrainer() {
                 style={{
                   ...btnStyle("var(--accent)", totalBet === 0),
                   background: totalBet > 0 ? "var(--accent)" : "transparent",
-                  color: totalBet > 0 ? "var(--bg)" : "var(--border)",
+                  color: totalBet > 0 ? "var(--on-accent)" : "var(--placeholder)",
                   fontSize: 14,
                   padding: "12px 24px",
                 }}
@@ -883,7 +883,7 @@ export default function BaccaratTrainer() {
               style={{
                 ...btnStyle("var(--accent)"),
                 background: "var(--accent)",
-                color: "var(--bg)",
+                color: "var(--on-accent)",
                 fontSize: 14,
                 padding: "12px 24px",
               }}
@@ -916,7 +916,7 @@ export default function BaccaratTrainer() {
           COMMENTARY
         </div>
         {log.length === 0 ? (
-          <div style={{ color: "var(--border)", fontSize: 13 }}>
+          <div style={{ color: "var(--placeholder)", fontSize: 13 }}>
             Place a bet and click DEAL to see how the round plays out.
           </div>
         ) : (
@@ -963,7 +963,7 @@ export default function BaccaratTrainer() {
           <span>SHOE: {Math.max(0, shoe.length - shoeIdx)} cards left</span>
         </div>
         {history.length === 0 ? (
-          <div style={{ color: "var(--border)", fontSize: 13 }}>No rounds yet.</div>
+          <div style={{ color: "var(--placeholder)", fontSize: 13 }}>No rounds yet.</div>
         ) : (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             {history.map((h, i) => {
@@ -1033,7 +1033,7 @@ const btnStyle = (color, disabled) => ({
   borderRadius: 6,
   border: `1px solid ${disabled ? "var(--border)" : color}`,
   background: "transparent",
-  color: disabled ? "var(--border)" : color,
+  color: disabled ? "var(--placeholder)" : color,
   fontFamily: "'Courier New', monospace",
   fontWeight: 900,
   fontSize: 12,

@@ -61,11 +61,11 @@ const PAIRS = [
 ];
 
 const ACTION_STYLE = {
-  H:  { bg:"#0f1e2a", border:"#2a9fd6", color:"#2a9fd6", label:"HIT" },
-  S:  { bg:"#0d1f14", border:"var(--accent)", color:"var(--accent)", label:"STAND" },
-  D:  { bg:"#1e1a08", border:"var(--warn)", color:"var(--warn)", label:"DOUBLE" },
-  P:  { bg:"#1a0f22", border:"#c77dff", color:"#c77dff", label:"SPLIT" },
-  DS: { bg:"#1e1008", border:"#ff9f43", color:"#ff9f43", label:"DBL/STD" },
+  H:  { bg:"color-mix(in srgb, var(--info) 14%, var(--bg-elev))",    border:"var(--info)",    color:"var(--info)",    label:"HIT" },
+  S:  { bg:"color-mix(in srgb, var(--accent) 14%, var(--bg-elev))",  border:"var(--accent)",  color:"var(--accent)",  label:"STAND" },
+  D:  { bg:"color-mix(in srgb, var(--warn) 14%, var(--bg-elev))",    border:"var(--warn)",    color:"var(--warn)",    label:"DOUBLE" },
+  P:  { bg:"color-mix(in srgb, var(--magenta) 14%, var(--bg-elev))", border:"var(--magenta)", color:"var(--magenta)", label:"SPLIT" },
+  DS: { bg:"color-mix(in srgb, #d97706 14%, var(--bg-elev))",        border:"#d97706",        color:"#d97706",        label:"DBL/STD" },
 };
 
 // ─── DEVIATIONS (Illustrious 18 + Fab 4) ────────────────────
@@ -99,11 +99,11 @@ const DEVIATIONS = [
 ];
 
 const DEV_ACTION_STYLE = {
-  S:   { color:"var(--accent)", label:"STAND" },
-  H:   { color:"#2a9fd6", label:"HIT" },
-  D:   { color:"var(--warn)", label:"DOUBLE" },
-  TAKE:{ color:"#c77dff", label:"TAKE INS" },
-  SUR: { color:"var(--danger)", label:"SURRENDER" },
+  S:   { color:"var(--accent)",  label:"STAND" },
+  H:   { color:"var(--info)",    label:"HIT" },
+  D:   { color:"var(--warn)",    label:"DOUBLE" },
+  TAKE:{ color:"var(--magenta)", label:"TAKE INS" },
+  SUR: { color:"var(--danger)",  label:"SURRENDER" },
 };
 
 // ─── QUIZ SCENARIOS ──────────────────────────────────────────
@@ -193,7 +193,7 @@ const simAdvance = s => {
 const SimCard=({card,hidden,sm})=>(
   <div style={{background:hidden?'var(--bg-elev)':'#fff',border:`1px solid ${hidden?'var(--border)':'#ccc'}`,borderRadius:sm?4:8,width:sm?34:56,height:sm?48:78,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',flexShrink:0}}>
     {hidden
-      ? <div style={{fontSize:16,color:'var(--border)'}}>?</div>
+      ? <div style={{fontSize:16,color:'var(--placeholder)'}}>?</div>
       : <><div style={{fontSize:sm?14:24,fontWeight:900,color:isRed(card.suit)?'#c00':'#111',lineHeight:1}}>{card.value}</div><div style={{fontSize:sm?11:18,color:isRed(card.suit)?'#c00':'#111',lineHeight:1.2}}>{card.suit}</div></>}
   </div>
 );
@@ -363,7 +363,7 @@ export default function BlackjackTrainer() {
         <tbody>
           {rows.map((row,ri)=>(
             <tr key={ri}>
-              <td style={{ padding:"5px 8px", color:"#bbb", fontWeight:700, fontSize:12, whiteSpace:"nowrap", borderRight:"1px solid #151f17" }}>{row.hand}</td>
+              <td style={{ padding:"5px 8px", color:"var(--text-2)", fontWeight:700, fontSize:12, whiteSpace:"nowrap", borderRight:"1px solid var(--border)" }}>{row.hand}</td>
               {row.actions.map((a,ai)=>{
                 const st = ACTION_STYLE[a]||ACTION_STYLE.H;
                 return (
@@ -410,7 +410,7 @@ export default function BlackjackTrainer() {
           <button key={m} onClick={()=>setMode(m)} style={{
             padding:"clamp(7px,1.2vh,12px) clamp(14px,2.5vw,26px)", borderRadius:6, border:"none", cursor:"pointer",
             background:mode===m?"var(--accent)":"transparent",
-            color:mode===m?"var(--bg)":"var(--text-3)",
+            color:mode===m?"var(--on-accent)":"var(--text-3)",
             fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:"clamp(10px,1.4vw,15px)", letterSpacing:"0.1em",
             transition:"all 0.2s",
           }}>{m.toUpperCase()}</button>
@@ -459,7 +459,7 @@ export default function BlackjackTrainer() {
               ].map(r=>(
                 <div key={r.action} style={{ display:"flex", gap:12, alignItems:"flex-start", background:"var(--bg-elev)", borderRadius:8, padding:"10px 14px" }}>
                   <div style={{ minWidth:60, fontSize:12, fontWeight:900, color:r.color, paddingTop:1 }}>{r.action}</div>
-                  <div style={{ fontSize:13, color:"#aac4b4", lineHeight:1.6 }}>{r.desc}</div>
+                  <div style={{ fontSize:13, color:"var(--text-2)", lineHeight:1.6 }}>{r.desc}</div>
                 </div>
               ))}
             </div>
@@ -532,7 +532,7 @@ export default function BlackjackTrainer() {
               ].map(r=>(
                 <div key={r.play} style={{ display:"flex", alignItems:"center", gap:12, background:"var(--bg-elev)", borderRadius:8, padding:"10px 14px" }}>
                   <div style={{ minWidth:80, fontSize:13, fontWeight:900, color:"var(--text)", flexShrink:0 }}>{r.play}</div>
-                  <div style={{ fontSize:12, color:"#aac4b4", flex:1 }}>{r.rule}</div>
+                  <div style={{ fontSize:12, color:"var(--text-2)", flex:1 }}>{r.rule}</div>
                   <div style={{ fontSize:13, color:"var(--warn)", flexShrink:0 }}>{r.priority}</div>
                 </div>
               ))}
@@ -554,7 +554,7 @@ export default function BlackjackTrainer() {
                 { step:"5", title:"Combine at the table",       desc:"Count while playing perfect basic strategy, vary bets by true count.", color:"var(--danger)" },
               ].map(r=>(
                 <div key={r.step} style={{ display:"flex", gap:14, alignItems:"flex-start", background:"var(--bg-elev)", borderRadius:8, padding:"12px 14px" }}>
-                  <div style={{ width:28, height:28, borderRadius:"50%", background:r.color, color:"var(--bg)", fontWeight:900, fontSize:14, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{r.step}</div>
+                  <div style={{ width:28, height:28, borderRadius:"50%", background:r.color, color:"var(--on-accent)", fontWeight:900, fontSize:14, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{r.step}</div>
                   <div>
                     <div style={{ fontSize:14, fontWeight:700, color:"var(--text)", marginBottom:3 }}>{r.title}</div>
                     <div style={{ fontSize:12, color:"var(--text-3)", lineHeight:1.6 }}>{r.desc}</div>
@@ -586,13 +586,13 @@ export default function BlackjackTrainer() {
           <div style={{ display:"flex", flexWrap:"wrap", gap:9, justifyContent:"center", marginBottom:20 }}>
             {cards.map((card,i)=>(
               <div key={card.id} style={{
-                background:"#101c13", border:"1px solid var(--border)", borderRadius:10,
+                background:"var(--bg-elev-2)", border:"1px solid var(--border)", borderRadius:10,
                 width:"clamp(60px,8vw,100px)", height:"clamp(82px,11vw,138px)", display:"flex", flexDirection:"column",
                 alignItems:"center", justifyContent:"center", position:"relative",
                 animation:`slideIn 0.22s ease ${i*0.07}s both`,
               }}>
-                <div style={{ fontSize:"clamp(18px,2.5vw,32px)", fontWeight:900, color:isRed(card.suit)?"#ff7070":"var(--text)" }}>{card.value}</div>
-                <div style={{ fontSize:"clamp(16px,2.2vw,28px)", color:isRed(card.suit)?"#ff7070":"var(--text)" }}>{card.suit}</div>
+                <div style={{ fontSize:"clamp(18px,2.5vw,32px)", fontWeight:900, color:isRed(card.suit)?"var(--danger)":"var(--text)" }}>{card.value}</div>
+                <div style={{ fontSize:"clamp(16px,2.2vw,28px)", color:isRed(card.suit)?"var(--danger)":"var(--text)" }}>{card.suit}</div>
                 {showHint && <div style={{ position:"absolute", bottom:3, right:4, fontSize:11, fontWeight:900, color:getCountLabel(card.value).color }}>{getCountLabel(card.value).label}</div>}
               </div>
             ))}
@@ -605,7 +605,7 @@ export default function BlackjackTrainer() {
                   <button key={n} onClick={()=>setUserGuess(String(n))} style={{
                     width:"clamp(34px,4.5vw,56px)", height:"clamp(34px,4.5vw,56px)", borderRadius:5, border:"none", cursor:"pointer",
                     background:userGuess===String(n)?"var(--accent)":"var(--bg-elev)",
-                    color:userGuess===String(n)?"var(--bg)":"#555",
+                    color:userGuess===String(n)?"var(--on-accent)":"var(--text-3)",
                     fontWeight:900, fontSize:"clamp(12px,1.6vw,18px)", fontFamily:"'Courier New', monospace", transition:"all 0.15s",
                   }}>{n>0?`+${n}`:n}</button>
                 ))}
@@ -613,14 +613,14 @@ export default function BlackjackTrainer() {
               <div style={{ display:"flex", gap:7 }}>
                 <button onClick={submitCount} disabled={userGuess===""} style={{
                   padding:"clamp(8px,1.2vh,14px) clamp(22px,3vw,38px)", background:userGuess!==""?"var(--accent)":"var(--bg-elev)",
-                  color:userGuess!==""?"var(--bg)":"var(--border-strong)", border:"none", borderRadius:7,
+                  color:userGuess!==""?"var(--on-accent)":"var(--text-dim)", border:"none", borderRadius:7,
                   cursor:userGuess!==""?"pointer":"default",
                   fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:"clamp(11px,1.4vw,16px)", transition:"all 0.2s",
                 }}>SUBMIT</button>
                 <button onClick={()=>setShowHint(!showHint)} style={{
                   padding:"clamp(8px,1.2vh,14px) clamp(13px,2vw,22px)", background:"var(--bg-elev)",
-                  color:showHint?"var(--warn)":"#333",
-                  border:`1px solid ${showHint?"color-mix(in srgb, var(--warn) 20%, transparent)":"#1a2a1e"}`,
+                  color:showHint?"var(--warn)":"var(--text-dim)",
+                  border:`1px solid ${showHint?"color-mix(in srgb, var(--warn) 20%, transparent)":"var(--border)"}`,
                   borderRadius:7, cursor:"pointer", fontFamily:"'Courier New', monospace", fontSize:"clamp(10px,1.3vw,14px)",
                 }}>HINT</button>
               </div>
@@ -643,7 +643,7 @@ export default function BlackjackTrainer() {
                 </div>
               )}
               <button onClick={dealCards} style={{
-                padding:"10px 28px", background:"var(--accent)", color:"var(--bg)",
+                padding:"10px 28px", background:"var(--accent)", color:"var(--on-accent)",
                 border:"none", borderRadius:7, cursor:"pointer",
                 fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:14,
               }}>NEXT →</button>
@@ -661,7 +661,7 @@ export default function BlackjackTrainer() {
               <button key={v} onClick={()=>setQuizView(v)} style={{
                 padding:"8px 20px", borderRadius:6, border:"none", cursor:"pointer",
                 background:quizView===v?"var(--warn)":"var(--bg-elev)",
-                color:quizView===v?"var(--bg)":"var(--text-3)",
+                color:quizView===v?"var(--on-accent)":"var(--text-3)",
                 fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:13, letterSpacing:"0.1em",
                 transition:"all 0.2s",
               }}>{v==="quiz"?"QUIZ":"CHART"}</button>
@@ -676,14 +676,14 @@ export default function BlackjackTrainer() {
                 {qAcc!==null && <span style={{ color:"var(--text-3)" }}>ACC: <span style={{ color:qAcc>=80?"var(--accent)":qAcc>=60?"var(--warn)":"var(--danger)" }}>{qAcc}%</span></span>}
                 <span style={{ color:"var(--text-3)" }}>STREAK: <span style={{ color:"var(--warn)" }}>{quizStreak}</span></span>
               </div>
-              <div style={{ background:"var(--bg-elev)", border:"1px solid #1a2a1e", borderRadius:12, padding:"18px 20px", marginBottom:18 }}>
+              <div style={{ background:"var(--bg-elev)", border:"1px solid var(--border)", borderRadius:12, padding:"18px 20px", marginBottom:18 }}>
                 <div style={{ fontSize:"clamp(9px,1.1vw,13px)", color:"var(--text-3)", letterSpacing:"0.2em", marginBottom:7 }}>
                   {quizScenario.type==="hard"?"HARD TOTAL":quizScenario.type==="soft"?"SOFT HAND":"PAIR"}
                 </div>
                 <div style={{ fontSize:"clamp(26px,3.8vw,46px)", fontWeight:900, marginBottom:10 }}>{quizScenario.hand}</div>
                 <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8 }}>
                   <span style={{ fontSize:"clamp(11px,1.4vw,17px)", color:"var(--text-3)" }}>vs dealer</span>
-                  <div style={{ background:"#121f16", border:"1px solid var(--border-strong)", borderRadius:7, padding:"clamp(5px,1vh,10px) clamp(13px,2vw,24px)", fontSize:"clamp(18px,2.5vw,30px)", fontWeight:900, color:"var(--warn)" }}>{quizScenario.dealer}</div>
+                  <div style={{ background:"var(--bg-elev-2)", border:"1px solid var(--border-strong)", borderRadius:7, padding:"clamp(5px,1vh,10px) clamp(13px,2vw,24px)", fontSize:"clamp(18px,2.5vw,30px)", fontWeight:900, color:"var(--warn)" }}>{quizScenario.dealer}</div>
                 </div>
               </div>
               {!quizFeedback ? (
@@ -715,7 +715,7 @@ export default function BlackjackTrainer() {
                     {quizFeedback.correct?"Correct! 🎯":`Wrong — correct play: ${ACTION_STYLE[quizFeedback.correct_action]?.label}`}
                   </div>
                   <button onClick={newQuiz} style={{
-                    padding:"10px 28px", background:"var(--accent)", color:"var(--bg)",
+                    padding:"10px 28px", background:"var(--accent)", color:"var(--on-accent)",
                     border:"none", borderRadius:7, cursor:"pointer",
                     fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:14,
                   }}>NEXT HAND →</button>
@@ -743,7 +743,7 @@ export default function BlackjackTrainer() {
                   <button key={t.key} onClick={()=>setStratTab(t.key)} style={{
                     padding:"7px 16px", borderRadius:5, border:"none", cursor:"pointer",
                     background:stratTab===t.key ? (t.key==="deviations"?"var(--danger)":"var(--accent)") : "var(--bg-elev)",
-                    color:stratTab===t.key?"var(--bg)":"var(--text-3)",
+                    color:stratTab===t.key?"var(--on-accent)":"var(--text-3)",
                     fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:12, letterSpacing:"0.05em",
                     transition:"all 0.2s",
                   }}>{t.label}</button>
@@ -752,7 +752,7 @@ export default function BlackjackTrainer() {
 
               {/* Regular charts */}
               {stratTab!=="deviations" && (
-                <div style={{ background:"#090e0b", border:"1px solid var(--bg-elev-2)", borderRadius:10, padding:12, maxWidth:724, margin:"0 auto", width:"100%" }}>
+                <div style={{ background:"var(--bg)", border:"1px solid var(--bg-elev-2)", borderRadius:10, padding:12, maxWidth:724, margin:"0 auto", width:"100%" }}>
                   <div style={{ fontSize:12, color:"var(--text-3)", marginBottom:8, textAlign:"center", letterSpacing:"0.2em" }}>DEALER UPCARD →</div>
                   {stratTab==="hard"  && renderChart(HARD_TOTALS)}
                   {stratTab==="soft"  && renderChart(SOFT_TOTALS)}
@@ -789,28 +789,28 @@ export default function BlackjackTrainer() {
                       {!devFeedback ? (
                         <>
                           <div style={{ fontSize:20, fontWeight:900, marginBottom:4 }}>{devScenario.hand}</div>
-                          <div style={{ fontSize:10, color:"#555", marginBottom:14 }}>Basic strategy: <span style={{ color:"#888" }}>{DEV_ACTION_STYLE[devScenario.base]?.label || devScenario.base}</span></div>
+                          <div style={{ fontSize:10, color:"var(--text-3)", marginBottom:14 }}>Basic strategy: <span style={{ color:"#888" }}>{DEV_ACTION_STYLE[devScenario.base]?.label || devScenario.base}</span></div>
 
-                          <div style={{ fontSize:10, color:"#555", marginBottom:8 }}>At what true count do you deviate?</div>
+                          <div style={{ fontSize:10, color:"var(--text-3)", marginBottom:8 }}>At what true count do you deviate?</div>
                           <div style={{ display:"flex", gap:5, flexWrap:"wrap", justifyContent:"center", marginBottom:14 }}>
                             {[-2,-1,0,1,2,3,4,5].map(n=>(
                               <button key={n} onClick={()=>setDevTCInput(String(n))} style={{
                                 width:34, height:34, borderRadius:5, border:"none", cursor:"pointer",
-                                background:devTCInput===String(n)?"var(--danger)":"#0a130c",
-                                color:devTCInput===String(n)?"var(--bg)":"#555",
+                                background:devTCInput===String(n)?"var(--danger)":"var(--bg)",
+                                color:devTCInput===String(n)?"var(--on-accent)":"var(--text-3)",
                                 fontWeight:900, fontSize:11, fontFamily:"'Courier New', monospace",
                               }}>{n>0?`+${n}`:n}</button>
                             ))}
                           </div>
 
-                          <div style={{ fontSize:10, color:"#555", marginBottom:8 }}>What do you do instead?</div>
+                          <div style={{ fontSize:10, color:"var(--text-3)", marginBottom:8 }}>What do you do instead?</div>
                           <div style={{ display:"flex", gap:6, justifyContent:"center", flexWrap:"wrap", marginBottom:14 }}>
                             {["H","S","D","SUR","TAKE"].map(a=>{
                               const st=DEV_ACTION_STYLE[a];
                               return (
                                 <button key={a} onClick={()=>setDevInput(a)} style={{
                                   padding:"8px 12px", borderRadius:6, border:"none", cursor:"pointer",
-                                  background:devInput===a?`color-mix(in srgb, ${st.color} 20%, transparent)`:"#0a130c",
+                                  background:devInput===a?`color-mix(in srgb, ${st.color} 20%, transparent)`:"var(--bg)",
                                   color:devInput===a?st.color:"var(--text-3)",
                                   border:`1px solid ${devInput===a?st.color+"66":"var(--bg-elev-2)"}`,
                                   fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:10,
@@ -821,7 +821,7 @@ export default function BlackjackTrainer() {
 
                           <button onClick={submitDevQuiz} disabled={devInput===null||devTCInput===""} style={{
                             padding:"8px 22px", background:devInput!==null&&devTCInput!==""?"var(--danger)":"var(--bg-elev)",
-                            color:devInput!==null&&devTCInput!==""?"var(--bg)":"var(--border-strong)",
+                            color:devInput!==null&&devTCInput!==""?"var(--on-accent)":"var(--text-dim)",
                             border:"none", borderRadius:7, cursor:devInput!==null&&devTCInput!==""?"pointer":"default",
                             fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:11,
                           }}>CHECK</button>
@@ -841,7 +841,7 @@ export default function BlackjackTrainer() {
                             </div>
                           )}
                           <button onClick={newDevQuiz} style={{
-                            padding:"7px 20px", background:"var(--danger)", color:"var(--bg)",
+                            padding:"7px 20px", background:"var(--danger)", color:"var(--on-accent)",
                             border:"none", borderRadius:7, cursor:"pointer",
                             fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:10,
                           }}>NEXT →</button>
@@ -851,7 +851,7 @@ export default function BlackjackTrainer() {
                   )}
 
                   {/* Deviation table */}
-                  <div style={{ background:"#090e0b", border:"1px solid var(--bg-elev-2)", borderRadius:10, overflow:"hidden", maxWidth:724, margin:"0 auto", width:"100%" }}>
+                  <div style={{ background:"var(--bg)", border:"1px solid var(--bg-elev-2)", borderRadius:10, overflow:"hidden", maxWidth:724, margin:"0 auto", width:"100%" }}>
                     <div style={{ overflowX:"auto" }}>
                       <table style={{ borderCollapse:"collapse", width:"100%", fontSize:13 }}>
                         <thead>
@@ -868,9 +868,9 @@ export default function BlackjackTrainer() {
                             const devSt = DEV_ACTION_STYLE[d.dev]||DEV_ACTION_STYLE.H;
                             const dirSymbol = d.dir==="gte"?"≥":"≤";
                             return (
-                              <tr key={i} style={{ borderTop:"1px solid #0f1810", background:i%2===0?"#090e0b":"#0b1209" }}>
-                                <td style={{ padding:"5px 8px", fontWeight:900, fontSize:12, color:"#cce0d0", whiteSpace:"nowrap" }}>{d.hand}</td>
-                                <td style={{ padding:"5px 8px", textAlign:"center", fontSize:13, color:"#555" }}>
+                              <tr key={i} style={{ borderTop:"1px solid var(--border)", background:i%2===0?"var(--bg)":"var(--bg-elev)" }}>
+                                <td style={{ padding:"5px 8px", fontWeight:900, fontSize:12, color:"var(--text)", whiteSpace:"nowrap" }}>{d.hand}</td>
+                                <td style={{ padding:"5px 8px", textAlign:"center", fontSize:13, color:"var(--text-3)" }}>
                                   {d.base!=="—" ? (ACTION_STYLE[d.base]?.label||d.base) : "—"}
                                 </td>
                                 <td style={{ padding:"5px 8px", textAlign:"center", fontWeight:900, fontSize:13 }}>
@@ -888,7 +888,7 @@ export default function BlackjackTrainer() {
                         </tbody>
                       </table>
                     </div>
-                    <div style={{ padding:"8px 10px", fontSize:8.5, color:"var(--text-3)", borderTop:"1px solid #0f1810" }}>
+                    <div style={{ padding:"8px 10px", fontSize:8.5, color:"var(--text-3)", borderTop:"1px solid var(--border)" }}>
                       ★★★ = highest value · ★★ = high value · ★ = moderate value · SUR = surrender if allowed
                     </div>
                   </div>
@@ -913,7 +913,7 @@ export default function BlackjackTrainer() {
               <button key={i} onClick={()=>setSpeedMode(i)} style={{
                 padding:"5px 14px", borderRadius:5, border:"none", cursor:"pointer",
                 background:speedMode===i?"var(--warn)":"var(--bg-elev)",
-                color:speedMode===i?"var(--bg)":"var(--text-3)",
+                color:speedMode===i?"var(--on-accent)":"var(--text-3)",
                 fontFamily:"'Courier New',monospace", fontWeight:900, fontSize:11,
               }}>{lbl}</button>
             ))}
@@ -921,18 +921,18 @@ export default function BlackjackTrainer() {
           <div style={{ height:220, display:"flex", alignItems:"center", justifyContent:"center", marginTop:8, marginBottom:14, position:"relative" }}>
             {speedCards.length>0 && speedIndex<speedCards.length && speedResult===null ? (
               <div key={speedIndex} style={{
-                background:"#101c13", border:"1px solid var(--border)", borderRadius:11,
+                background:"var(--bg-elev-2)", border:"1px solid var(--border)", borderRadius:11,
                 width:130, height:180, display:"flex", flexDirection:"column",
                 alignItems:"center", justifyContent:"center",
                 animation:"flipIn 0.22s ease",
               }}>
-                <div style={{ fontSize:52, fontWeight:900, color:isRed(speedCards[speedIndex].suit)?"#ff7070":"var(--text)" }}>{speedCards[speedIndex].value}</div>
-                <div style={{ fontSize:44, color:isRed(speedCards[speedIndex].suit)?"#ff7070":"var(--text)" }}>{speedCards[speedIndex].suit}</div>
+                <div style={{ fontSize:52, fontWeight:900, color:isRed(speedCards[speedIndex].suit)?"var(--danger)":"var(--text)" }}>{speedCards[speedIndex].value}</div>
+                <div style={{ fontSize:44, color:isRed(speedCards[speedIndex].suit)?"var(--danger)":"var(--text)" }}>{speedCards[speedIndex].suit}</div>
               </div>
             ) : speedIndex>=speedCards.length && speedResult===null ? (
               <div style={{ color:"var(--accent)", fontWeight:900, fontSize:18 }}>ENTER YOUR COUNT ↓</div>
             ) : null}
-            <div style={{ position:"absolute", bottom:0, right:0, fontSize:9, color:"#1a2a1e" }}>
+            <div style={{ position:"absolute", bottom:0, right:0, fontSize:9, color:"var(--border)" }}>
               {speedIndex<speedCards.length?`${speedIndex+1}/10`:"10/10"}
             </div>
           </div>
@@ -952,14 +952,14 @@ export default function BlackjackTrainer() {
                   <button key={n} onClick={()=>setSpeedInput(String(n))} style={{
                     width:38, height:38, borderRadius:5, border:"none", cursor:"pointer",
                     background:speedInput===String(n)?"var(--accent)":"var(--bg-elev)",
-                    color:speedInput===String(n)?"var(--bg)":"#555",
+                    color:speedInput===String(n)?"var(--on-accent)":"var(--text-3)",
                     fontWeight:900, fontSize:"clamp(10px,1.3vw,15px)", fontFamily:"'Courier New', monospace",
                   }}>{n>0?`+${n}`:n}</button>
                 ))}
               </div>
               <button onClick={submitSpeed} disabled={speedInput===""} style={{
                 padding:"8px 22px", background:speedInput!==""?"var(--accent)":"var(--bg-elev)",
-                color:speedInput!==""?"var(--bg)":"var(--border-strong)",
+                color:speedInput!==""?"var(--on-accent)":"var(--text-dim)",
                 border:"none", borderRadius:7, cursor:speedInput!==""?"pointer":"default",
                 fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:11,
               }}>SUBMIT</button>
@@ -985,7 +985,7 @@ export default function BlackjackTrainer() {
                 </div>
               )}
               <button onClick={startSpeed} style={{
-                padding:"10px 28px", background:"var(--accent)", color:"var(--bg)",
+                padding:"10px 28px", background:"var(--accent)", color:"var(--on-accent)",
                 border:"none", borderRadius:7, cursor:"pointer",
                 fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:14,
               }}>TRY AGAIN →</button>
@@ -993,7 +993,7 @@ export default function BlackjackTrainer() {
           )}
           {speedCards.length===0 && (
             <button onClick={startSpeed} style={{
-              padding:"10px 28px", background:"var(--accent)", color:"var(--bg)",
+              padding:"10px 28px", background:"var(--accent)", color:"var(--on-accent)",
               border:"none", borderRadius:7, cursor:"pointer",
               fontFamily:"'Courier New', monospace", fontWeight:900, fontSize:12,
             }}>START →</button>
@@ -1014,7 +1014,7 @@ export default function BlackjackTrainer() {
                 <button key={n} onClick={()=>sim.phase==='idle'&&setSim(s=>({...s,players:n}))} style={{
                   width:34,height:34,borderRadius:5,border:'none',cursor:'pointer',
                   background:sim.players===n?'var(--accent)':'var(--bg-elev)',
-                  color:sim.players===n?'var(--bg)':'var(--text-3)',
+                  color:sim.players===n?"var(--on-accent)":'var(--text-3)',
                   fontFamily:"'Courier New',monospace",fontWeight:900,fontSize:13,
                   opacity:sim.phase!=='idle'&&sim.players!==n?0.35:1,
                 }}>{n}</button>
@@ -1031,7 +1031,7 @@ export default function BlackjackTrainer() {
               }} style={{
                 padding:'8px 22px',borderRadius:7,border:'none',cursor:'pointer',
                 background:sim.phase==='idle'?'var(--accent)':sim.active?'var(--warn)':'var(--accent)',
-                color:'var(--bg)',fontFamily:"'Courier New',monospace",fontWeight:900,fontSize:13,
+                color:'var(--on-accent)',fontFamily:"'Courier New',monospace",fontWeight:900,fontSize:13,
               }}>{sim.phase==='idle'?'START':sim.active?'PAUSE':'RESUME'}</button>
               <button onClick={()=>{setSim(SIM0);setSimReveal(false);}} style={{
                 padding:'8px 22px',borderRadius:7,border:'1px solid color-mix(in srgb, var(--text-3) 20%, transparent)',cursor:'pointer',
@@ -1043,7 +1043,7 @@ export default function BlackjackTrainer() {
                   <button key={i} onClick={()=>setSimSpeed(i)} style={{
                     padding:'5px 12px',borderRadius:5,border:'none',cursor:'pointer',
                     background:simSpeed===i?'var(--warn)':'var(--bg-elev)',
-                    color:simSpeed===i?'var(--bg)':'var(--text-3)',
+                    color:simSpeed===i?"var(--on-accent)":'var(--text-3)',
                     fontFamily:"'Courier New',monospace",fontWeight:900,fontSize:11,
                   }}>{lbl}</button>
                 ))}
@@ -1131,7 +1131,7 @@ export default function BlackjackTrainer() {
                     </div>
                   </>
                 ):(
-                  <div style={{fontSize:12,color:'var(--border)',textAlign:'center',padding:'24px 0'}}>hidden</div>
+                  <div style={{fontSize:12,color:'var(--placeholder)',textAlign:'center',padding:'24px 0'}}>hidden</div>
                 )}
                 <div>
                   <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'var(--text-3)',marginBottom:4}}>
