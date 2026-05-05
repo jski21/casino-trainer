@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import BlackjackTrainer from "@/components/BlackjackTrainer";
 import PokerTrainer from "@/components/PokerTrainer";
+import BaccaratTrainer from "@/components/BaccaratTrainer";
 
 const TRAINERS = [
   { id: "blackjack", label: "BLACKJACK TRAINER" },
   { id: "poker", label: "POKER TRAINER" },
+  { id: "baccarat", label: "BACCARAT SIMULATOR" },
 ];
 const ACTIVE_TRAINER_STORAGE_KEY = "casino_trainer_active";
 
@@ -89,7 +91,9 @@ export default function TrainerSwitcher() {
         </div>
       </div>
 
-      {active === "blackjack" ? <BlackjackTrainer /> : <PokerTrainer />}
+      {active === "blackjack" && <BlackjackTrainer />}
+      {active === "poker" && <PokerTrainer />}
+      {active === "baccarat" && <BaccaratTrainer />}
     </div>
   );
 }
